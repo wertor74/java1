@@ -2,30 +2,22 @@ package ru.progwards.java1.lessons.compare_if_cycles;
 
 public class TriangleInfo {
     public static boolean isTriangle(int a, int b, int c) {
-        boolean res_tre = false;
-        if (a + b > c && b + c > a && a + c > b)
-            res_tre = true;
-    return res_tre;
+        if (a + b > c && b + c > a && a + c > b) return true;
+    return false;
     }
     public static boolean isRightTriangle(int a, int b, int c) {
-        boolean res_pif = false;
         if (a > b && a > c) {
-            if (a * a == b * b + c * c)
-                res_pif = true;
+            if (a * a == b * b + c * c) return true;
         } else if (b > a && b > c) {
-            if (b * b == a * a + c * c)
-                res_pif = true;
+            if (b * b == a * a + c * c) return true;
         } else {
-            if (c * c == a * a + b * b)
-                res_pif = true;
+            if (c * c == a * a + b * b) return true;
         }
-    return res_pif;
+    return false;
     }
     public static boolean isIsoscelesTriangle(int a, int b, int c) {
-        boolean res_ravn = false;
-        if (a + b > c && a == b || b == c || a == c)
-                res_ravn = true;
-    return res_ravn;
+        if (a + b > c && a == b || b == c || a == c) return true;
+    return false;
     }
     public static void main(String[] args) {
         System.out.println(isTriangle(301, 100,201));
