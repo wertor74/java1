@@ -32,14 +32,14 @@ public class Animal {
         return weight * getFoodCoeff();
     }
     public String toStringFull() {
-        return toString() + " " + calculateFoodWeight();
+        return "I am " + getKind() + ", eat " + getFoodKind() + " " + calculateFoodWeight();
     }
     @Override
     public String toString() {
-        return "I am " + getKind() + ", eat " + getFoodKind() + " " + calculateFoodWeight();
+        return toStringFull();
     }
 
     public static void main(String[] args) {
-        System.out.println(new Cow(200.0));
+        System.out.println(new Hamster(2.0));
     }
 }
