@@ -2,7 +2,7 @@ package ru.progwards.java1.lessons.classes;
 
 public class Animal {
     double weight;
-    Animal(double weight) {
+    public Animal(double weight) {
         this.weight = weight;
     }
     enum AnimalKind {
@@ -29,14 +29,14 @@ public class Animal {
         return 0.02;
     }
     public double calculateFoodWeight() {
-        return weight * getFoodCoeff();
+        return getWeight() * getFoodCoeff();
     }
     public String toStringFull() {
-        return "I am " + getKind() + ", eat " + getFoodKind() + " " + calculateFoodWeight();
+        return toString() + " " + calculateFoodWeight();
     }
     @Override
     public String toString() {
-        return toStringFull();
+        return "I am " + getKind() + ", eat " + getFoodKind();
     }
 
     public static void main(String[] args) {
