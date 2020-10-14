@@ -3,11 +3,11 @@ package ru.progwards.java1.lessons.arrays;
 import java.util.Arrays;
 
 public class DIntArray {
-    private int [] arr = {1, 2, 3, 4, 5};
+    private int [] arr = {};
     public DIntArray() {
     }
     public void add(int num) {
-        arr = Arrays.copyOf(arr, arr.length+1);
+        arr = Arrays.copyOf(arr, arr.length + 1);
         arr[arr.length-1] = num;
     }
     public void atInsert(int pos, int num) {
@@ -33,7 +33,17 @@ public class DIntArray {
     }
 
     public static void main(String[] args) {
-        System.out.println(new DIntArray().at(4));
-
+        DIntArray dia = new DIntArray();
+        dia.add(-78);
+        dia.add(-35);
+        dia.add(-21);
+        dia.add(66);
+        dia.add(-79);
+        dia.add(80);
+        dia.add(25);
+        dia.add(56);
+        dia.add(-91);
+        dia.atDelete(6);
+        System.out.println(dia.at(6));
     }
 }
