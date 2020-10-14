@@ -8,12 +8,12 @@ public class DIntArray {
     }
     public void add(int num) {
         arr = Arrays.copyOf(arr, arr.length + 1);
-        arr[arr.length-1] = num;
+        arr[arr.length - 1] = num;
     }
     public void atInsert(int pos, int num) {
-        arr = Arrays.copyOf(arr, arr.length+1);
-        for (int i = arr.length-1; i >= pos; i--) {
-            arr[i] = arr[i-1];
+        arr = Arrays.copyOf(arr, arr.length + 1);
+        for (int i = (arr.length - 1); i > pos; i--) {
+            arr[i] = arr[i - 1];
         }
         arr[pos] = num;
     }
@@ -34,16 +34,12 @@ public class DIntArray {
 
     public static void main(String[] args) {
         DIntArray dia = new DIntArray();
-        dia.add(-78);
-        dia.add(-35);
-        dia.add(-21);
-        dia.add(66);
-        dia.add(-79);
-        dia.add(80);
-        dia.add(25);
-        dia.add(56);
-        dia.add(-91);
-        dia.atDelete(6);
-        System.out.println(dia.at(6));
+        dia.add(1);
+        dia.add(2);
+        dia.add(3);
+        dia.add(4);
+        dia.add(5);
+        dia.atInsert(5, 0);
+        System.out.println(Arrays.toString(dia.arr));
     }
 }
