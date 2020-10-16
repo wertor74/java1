@@ -20,4 +20,3 @@ public class Binary {
         System.out.println(new Binary((byte) 4).toString());
     }
 }
-

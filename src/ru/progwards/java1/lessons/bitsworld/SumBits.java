@@ -5,7 +5,7 @@ public class SumBits {
         int x = value;
         int result = 0;
         int i = 0;
-        while (i < 32) {
+        while (i < 8) {
             int y = x & 1;
             result += y;
             x >>= 1;
@@ -15,6 +15,6 @@ public class SumBits {
     }
 
     public static void main(String[] args) {
-        System.out.println(sumBits((byte) -128));
+        System.out.println(sumBits((byte) 128));
     }
 }
