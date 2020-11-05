@@ -38,11 +38,10 @@ public class SeaBattleAlg {
             Arrays.fill(field[i], '0');
         }
     }
-    public void encircleDestroyed (int x, int y) { //обводим убитые корабли
+    public static void encircleDestroyed (int x, int y) { //обводим убитые корабли
         //System.out.println("x = " + x + ", y = " + y);
         if (y < 9) field[x][y + 1] = '.';
         if (x < 9) field[x + 1][y] = '.';
-
     }
 
     public void battleAlgorithm(SeaBattle seaBattle) {
@@ -59,12 +58,14 @@ public class SeaBattleAlg {
                     case HIT -> {
                         field[x][y] = 'X';
                         hits++;
-                        if (hits >= 20) return;
                     }
                     case DESTROYED -> {
                         field[x][y] = 'X';
-                        encircleDestroyed(x, y);
+                        //encircleDestroyed(x, y);
+                        if (y < 9) field[x][y + 1] = '.';
+                        if (x < 9) field[x + 1][y] = '.';
                         hits++;
+                        //System.out.println("hits = " + hits);
                         if (hits >= 20) return;
                     }
                 }
