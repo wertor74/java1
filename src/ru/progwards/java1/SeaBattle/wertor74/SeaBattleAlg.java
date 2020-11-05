@@ -53,23 +53,22 @@ public class SeaBattleAlg {
                 // проверяем пустая ячейка, или нет. Если не пустая стреляем в следующую
                 if (field[x][y] != '0') continue;
                 SeaBattle.FireResult fireResult = seaBattle.fire(x, y);
+                System.out.println(fireResult);
                 switch (fireResult) {
-                    case MISS -> field[x][y] = '*';
-                    case HIT -> {
+                    case MISS:
+                        field[x][y] = '*';
+                        break;
+                    case HIT:
                         field[x][y] = 'X';
                         hits++;
-                    }
-                    case DESTROYED -> {
+                        break;
+                    case DESTROYED:
                         field[x][y] = 'X';
-                        //encircleDestroyed(x, y);
-                        if (y < 9) field[x][y + 1] = '.';
-                        if (x < 9) field[x + 1][y] = '.';
+                        encircleDestroyed(x, y);
                         hits++;
                         //System.out.println("hits = " + hits);
                         if (hits >= 20) return;
-                    }
                 }
-
             }
         }
     }
