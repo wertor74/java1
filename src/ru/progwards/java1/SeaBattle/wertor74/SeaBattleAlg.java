@@ -2,6 +2,8 @@ package ru.progwards.java1.SeaBattle.wertor74;
 
 import ru.progwards.java1.SeaBattle.SeaBattle;
 
+import java.util.Arrays;
+
 public class SeaBattleAlg {
     // Тестовое поле создаётся конструктором
     //     SeaBattle seaBattle = new SeaBattle(true);
@@ -28,6 +30,19 @@ public class SeaBattleAlg {
     //         7|X|.|X|.|.|.|.|Х|.|X|
     //         8|X|.|.|.|.|.|.|X|.|.|
     //         9|X|.|.|.|X|.|.|.|.|.|
+    static char [][] field; // своё поле для отмечания выстрелов
+
+    static void init (SeaBattle seaBattle) {
+        field = new char[seaBattle.getSizeY()][seaBattle.getSizeX()];
+        for (int i = 0; i < seaBattle.getSizeY(); i++) {
+            Arrays.fill(field[i], '0');
+        }
+    }
+    public void encircleDestroyed (int x, int y) {
+
+        if (y < 9) field[x][y + 1] = '.';
+
+    }
 
     public void battleAlgorithm(SeaBattle seaBattle) {
         // пример алгоритма:
@@ -35,14 +50,24 @@ public class SeaBattleAlg {
         int hits = 0; // считаем количество подбитых клеток
         for (int y = 0; y < seaBattle.getSizeX(); y++) {
             for (int x = 0; x < seaBattle.getSizeY(); x++) {
+                // проверяем пустая ячейка, или нет. Если не пустая стреляем в следующую
+                if (field[x][y] != '0') continue;
                 SeaBattle.FireResult fireResult = seaBattle.fire(x, y);
-                if (fireResult != SeaBattle.FireResult.MISS) {
-                    hits ++;
-                    if (hits >= 20) {
-                        return;
+                switch (fireResult) {
+                    case MISS -> field[x][y] = '*';
+                    case HIT -> {
+                        field[x][y] = 'X';
+                        hits++;
+                        if (hits >= 20) return;
+                    }
+                    case DESTROYED -> {
+                        field[x][y] = 'X';
+                        hits++;
+                        if (hits >= 20) return;
+                        encircleDestroyed(x, y);
                     }
                 }
-                //System.out.println(seaBattle);
+
             }
         }
     }
@@ -50,10 +75,20 @@ public class SeaBattleAlg {
     // функция для отладки
     public static void main(String[] args) {
         System.out.println("Sea battle");
-
         SeaBattle seaBattle = new SeaBattle(true);
+        init(seaBattle);
         new SeaBattleAlg().battleAlgorithm(seaBattle);
-        //System.out.println(seaBattle);
+        System.out.println(seaBattle);
+        for (int k = 0; k <= 9; k++) {
+            for (int l = 0; l <= 9; l++) {
+                if (l < 9) {
+                    System.out.print(field[l][k]);
+                } else {
+                    System.out.println(field[l][k]);
+                }
+            }
+        }
+
         System.out.println(seaBattle.getResult());
     }
 }
