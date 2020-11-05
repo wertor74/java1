@@ -53,7 +53,6 @@ public class SeaBattleAlg {
                 // проверяем пустая ячейка, или нет. Если не пустая стреляем в следующую
                 if (field[x][y] != '0') continue;
                 SeaBattle.FireResult fireResult = seaBattle.fire(x, y);
-                System.out.println(fireResult);
                 switch (fireResult) {
                     case MISS:
                         field[x][y] = '*';
