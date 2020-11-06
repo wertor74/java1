@@ -68,8 +68,26 @@ public class SeaBattleAlg {
                         break;
                     case DESTROYED:
                         field[x][y] = 'X';
-                        if (y < 9) field[x][y + 1] = '.';
-                        if (x < 9) field[x + 1][y] = '.';
+                        if (y < 9) {
+                            switch (x) {
+                                case 0:
+                                    field[x + 1][y] = '0';
+                                    field[x + 1][y +1] = '0';
+                                    field[x][y + 1] = '0';
+                                    break;
+                                case 9:
+                                    field[x][y + 1] = '.';
+                                    field[x - 1][y + 1] = '.';
+                                    break;
+                                default:
+                                    field[x + 1][y] = '.';
+                                    field[x + 1][y + 1] = '.';
+                                    field[x][y + 1] = '.';
+                                    field[x - 1][y + 1] = '.';
+                            }
+                        } else {
+                            if (x < 9) field[x + 1][y] = '.';
+                        }
 
                         System.out.println(seaBattle);
                         for (int k = 0; k <= 9; k++) {
