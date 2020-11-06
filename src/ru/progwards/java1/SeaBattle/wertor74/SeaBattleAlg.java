@@ -30,21 +30,26 @@ public class SeaBattleAlg {
     //         7|X|.|X|.|.|.|.|Х|.|X|
     //         8|X|.|.|.|.|.|.|X|.|.|
     //         9|X|.|.|.|X|.|.|.|.|.|
-    static char [][] field; // своё поле для отмечания выстрелов
+//    static char [][] field; // своё поле для отмечания выстрелов
 
-    static void init (SeaBattle seaBattle) {
-        field = new char[seaBattle.getSizeY()][seaBattle.getSizeX()];
+//    public void init (SeaBattle seaBattle) {
+//        field = new char[seaBattle.getSizeY()][seaBattle.getSizeX()];
+//        for (int i = 0; i < seaBattle.getSizeY(); i++) {
+//            Arrays.fill(field[i], '0');
+//        }
+//    }
+//    public void encircleDestroyed (int x, int y) { //обводим убитые корабли
+//        //System.out.println("x = " + x + ", y = " + y);
+//        if (y < 9) field[x][y + 1] = '.';
+//        if (x < 9) field[x + 1][y] = '.';
+//    }
+
+    public void battleAlgorithm(SeaBattle seaBattle) {
+        // своё поле для отмечания выстрелов
+        char [][] field = new char[seaBattle.getSizeY()][seaBattle.getSizeX()];
         for (int i = 0; i < seaBattle.getSizeY(); i++) {
             Arrays.fill(field[i], '0');
         }
-    }
-    public static void encircleDestroyed (int x, int y) { //обводим убитые корабли
-        //System.out.println("x = " + x + ", y = " + y);
-        if (y < 9) field[x][y + 1] = '.';
-        if (x < 9) field[x + 1][y] = '.';
-    }
-
-    public void battleAlgorithm(SeaBattle seaBattle) {
         // пример алгоритма:
         // стрельба по всем квадратам поля полным перебором
         int hits = 0; // считаем количество подбитых клеток
@@ -53,14 +58,31 @@ public class SeaBattleAlg {
                 // проверяем пустая ячейка, или нет. Если не пустая стреляем в следующую
                 if (field[x][y] != '0') continue;
                 SeaBattle.FireResult fireResult = seaBattle.fire(x, y);
-                if (fireResult != SeaBattle.FireResult.MISS) {
-                    field[x][y] = 'X';
-                    hits++;
-                    if (hits >= 20) {
-                        return;
-                    }
-                } else {
-                    field[x][y] = '*';
+                switch (fireResult) {
+                    case MISS:
+                        field[x][y] = '*';
+                        break;
+                    case HIT:
+                        field[x][y] = 'X';
+                        hits++;
+                        break;
+                    case DESTROYED:
+                        field[x][y] = 'X';
+                        if (y < 9) field[x][y + 1] = '.';
+                        if (x < 9) field[x + 1][y] = '.';
+
+                        System.out.println(seaBattle);
+                        for (int k = 0; k <= 9; k++) {
+                            for (int l = 0; l <= 9; l++) {
+                                if (l < 9) {
+                                    System.out.print(field[l][k]);
+                                } else {
+                                    System.out.println(field[l][k]);
+                                }
+                            }
+                        }
+                        hits++;
+                        if (hits >= 20) return;
                 }
             }
         }
@@ -70,19 +92,7 @@ public class SeaBattleAlg {
     public static void main(String[] args) {
         System.out.println("Sea battle");
         SeaBattle seaBattle = new SeaBattle(true);
-        init(seaBattle);
         new SeaBattleAlg().battleAlgorithm(seaBattle);
-        System.out.println(seaBattle);
-        for (int k = 0; k <= 9; k++) {
-            for (int l = 0; l <= 9; l++) {
-                if (l < 9) {
-                    System.out.print(field[l][k]);
-                } else {
-                    System.out.println(field[l][k]);
-                }
-            }
-        }
-
         System.out.println(seaBattle.getResult());
     }
 }
