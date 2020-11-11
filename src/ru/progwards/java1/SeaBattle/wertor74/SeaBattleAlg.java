@@ -142,7 +142,7 @@ public class SeaBattleAlg {
                 if (y < 9) {
                     switch (seaBattle.fire(x, y + 1)) {
                         case MISS:
-                            new Miss(x, y + 1);
+                            field[x][y + 1] = '*';
                             isHorizontal = true;
                             int i = 1;
                             while (seaBattle.fire(x + i, y) == SeaBattle.FireResult.HIT) {
@@ -153,7 +153,8 @@ public class SeaBattleAlg {
                             new Destroyed(x + i, y, len, isVertical, isHorizontal);
                             break;
                         case HIT:
-                            new Hit(x, y + 1, len, isVertical, isHorizontal);
+                            field[x][y + 1] = 'X';
+                            len++;
                             isVertical = true;
                             int j = 2;
                             while (seaBattle.fire(x, y + j) == SeaBattle.FireResult.HIT) {
@@ -166,6 +167,15 @@ public class SeaBattleAlg {
                         case DESTROYED:
                             new Destroyed(x, y + 1, len, isVertical, isHorizontal);
                     }
+                } else {
+                    isHorizontal = true;
+                    int i = 1;
+                    while (seaBattle.fire(x + i, y) == SeaBattle.FireResult.HIT) {
+                        field[x + i][y] = 'X';
+                        len++;
+                        i++;
+                    }
+                    new Destroyed(x + i, y, len, isVertical, isHorizontal);
                 }
             }
         }
@@ -194,8 +204,8 @@ public class SeaBattleAlg {
                     case DESTROYED:
                         hits++;
                         // проверяем количество подбитых кораблей
-                        if (hits >= 10) return;
                         new Destroyed(x, y, len, isVertical, isHorizontal);
+                        if (hits >= 10) return;
                 }
             }
         }
@@ -204,7 +214,7 @@ public class SeaBattleAlg {
     // функция для отладки
     public static void main(String[] args) {
         System.out.println("Sea battle");
-        SeaBattle seaBattle = new SeaBattle(true);
+        SeaBattle seaBattle = new SeaBattle();
         new SeaBattleAlg().battleAlgorithm(seaBattle);
         System.out.println(seaBattle.getResult());
     }
