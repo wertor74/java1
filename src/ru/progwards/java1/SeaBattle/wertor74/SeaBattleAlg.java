@@ -177,11 +177,10 @@ public class SeaBattleAlg {
         // стрельба по всем квадратам поля полным перебором
         for (int y = 0; y < seaBattle.getSizeX(); y++) {
             for (int x = 0; x < seaBattle.getSizeY(); x++) {
-                // проверяем количество подбитых кораблей
-                if (hits >= 10) return;
                 // проверяем пустая ячейка, или нет. Если не пустая стреляем в следующую
                 if (field[x][y] != '0') continue;
                 SeaBattle.FireResult fireResult = seaBattle.fire(x, y);
+                System.out.println(seaBattle);
                 switch (fireResult) {
                     case MISS:
                         new Miss(x, y);
@@ -189,9 +188,13 @@ public class SeaBattleAlg {
                     case HIT:
                         hits++;
                         new Hit(x, y, len, isVertical, isHorizontal);
+                        // проверяем количество подбитых кораблей
+                        if (hits >= 10) return;
                         break;
                     case DESTROYED:
                         hits++;
+                        // проверяем количество подбитых кораблей
+                        if (hits >= 10) return;
                         new Destroyed(x, y, len, isVertical, isHorizontal);
                 }
             }
