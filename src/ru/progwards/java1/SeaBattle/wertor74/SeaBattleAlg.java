@@ -162,7 +162,7 @@ public class SeaBattleAlg {
                                 len++;
                                 j++;
                             }
-                                new Destroyed(x, y + j, len, isVertical, isHorizontal);
+                            new Destroyed(x, y + j, len, isVertical, isHorizontal);
                             break;
                         case DESTROYED:
                             new Destroyed(x, y + 1, len, isVertical, isHorizontal);
@@ -190,7 +190,6 @@ public class SeaBattleAlg {
                 // проверяем пустая ячейка, или нет. Если не пустая стреляем в следующую
                 if (field[x][y] != '0') continue;
                 SeaBattle.FireResult fireResult = seaBattle.fire(x, y);
-                System.out.println(seaBattle);
                 switch (fireResult) {
                     case MISS:
                         new Miss(x, y);
@@ -203,8 +202,8 @@ public class SeaBattleAlg {
                         break;
                     case DESTROYED:
                         hits++;
-                        // проверяем количество подбитых кораблей
                         new Destroyed(x, y, len, isVertical, isHorizontal);
+                        // проверяем количество подбитых кораблей
                         if (hits >= 10) return;
                 }
             }
@@ -216,6 +215,7 @@ public class SeaBattleAlg {
         System.out.println("Sea battle");
         SeaBattle seaBattle = new SeaBattle();
         new SeaBattleAlg().battleAlgorithm(seaBattle);
+        System.out.println(seaBattle);
         System.out.println(seaBattle.getResult());
     }
 }
