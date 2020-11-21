@@ -32,7 +32,7 @@ public class BigAlgebra {
         }
         return result;
     }
-    BigInteger fibonacci(int n) {
+    static BigInteger fibonacci(int n) {
         BigInteger fibo = BigInteger.ZERO;
         BigInteger fibo1 = BigInteger.ONE;
         BigInteger fibo2 = BigInteger.ONE;
