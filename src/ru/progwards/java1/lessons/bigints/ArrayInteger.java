@@ -5,9 +5,8 @@ import java.util.Arrays;
 
 public class ArrayInteger {
     byte[] digits;
-    public ArrayInteger(int n, BigInteger value) {
+    public ArrayInteger(int n) {
         this.digits = new byte[n];
-        fromInt(value);
     }
     public void fromInt(BigInteger value) {
         while (value.compareTo(BigInteger.TEN.pow(digits.length)) >= 0) {
@@ -47,12 +46,8 @@ public class ArrayInteger {
         }
         return true;
     }
-/*
-    public static void main(String[] args) {
-        ArrayInteger num = new ArrayInteger(6, new BigInteger("111111"));
-        ArrayInteger arrayInteger = new ArrayInteger(6, new BigInteger("524288"));
-        System.out.println(arrayInteger.add(num) + ", " + Arrays.toString(arrayInteger.digits));
-    }
 
- */
+    public static void main(String[] args) {
+
+    }
 }
