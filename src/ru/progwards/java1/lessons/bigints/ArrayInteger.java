@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class ArrayInteger {
     byte[] digits;
-    public ArrayInteger(int n, BigInteger value) {
+    ArrayInteger(int n, BigInteger value) {
         this.digits = new byte[n];
         fromInt(value);
     }
