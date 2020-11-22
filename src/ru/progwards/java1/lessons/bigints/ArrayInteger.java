@@ -5,8 +5,10 @@ import java.util.Arrays;
 
 public class ArrayInteger {
     byte[] digits;
-    ArrayInteger(int n, BigInteger value) {
+    BigInteger value;
+    public ArrayInteger(int n, BigInteger value) {
         this.digits = new byte[n];
+        this.value = value;
         fromInt(value);
     }
     public void fromInt(BigInteger value) {
