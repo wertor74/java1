@@ -5,10 +5,8 @@ import java.util.Arrays;
 
 public class ArrayInteger {
     byte[] digits;
-    BigInteger value;
     public ArrayInteger(int n, BigInteger value) {
         this.digits = new byte[n];
-        this.value = value;
         fromInt(value);
     }
     public void fromInt(BigInteger value) {
@@ -49,10 +47,12 @@ public class ArrayInteger {
         }
         return true;
     }
-
+/*
     public static void main(String[] args) {
         ArrayInteger num = new ArrayInteger(6, new BigInteger("111111"));
         ArrayInteger arrayInteger = new ArrayInteger(6, new BigInteger("524288"));
         System.out.println(arrayInteger.add(num) + ", " + Arrays.toString(arrayInteger.digits));
     }
+
+ */
 }
