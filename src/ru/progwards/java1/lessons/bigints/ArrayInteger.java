@@ -36,6 +36,8 @@ public class ArrayInteger {
                         Arrays.fill(digits, (byte) 0);
                         return false;
                     }
+                    digits[i - 1] = (byte) (digits[i - 1] + num.digits[i - 1]);
+                    break;
                 default:
                     digits[i - 1] = (byte) (digits[i - 1] + num.digits[i - 1]);
                     if (digits[i - 1] > 9) {
@@ -48,6 +50,14 @@ public class ArrayInteger {
     }
 
     public static void main(String[] args) {
-
+        ArrayInteger arrayInteger = new ArrayInteger(6);
+        arrayInteger.fromInt(new BigInteger("888888"));
+        System.out.println(Arrays.toString(arrayInteger.digits));
+        System.out.println(arrayInteger.toInt() + ", " + arrayInteger.toInt().getClass());
+        ArrayInteger num = new ArrayInteger(6);
+        num.fromInt(new BigInteger("111112"));
+        System.out.println(Arrays.toString(num.digits));
+        System.out.println(num.toInt() + ", " + num.toInt().getClass());
+        System.out.println(arrayInteger.add(num) + ", " + Arrays.toString(arrayInteger.digits));
     }
 }
