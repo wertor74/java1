@@ -29,7 +29,7 @@ public class ArrayInteger {
         return new BigInteger(strToInt);
     }
     boolean add(ArrayInteger num) {
-        // сравниваем длинну массивов и приводим к большей длинне
+        // сравниваем длину массивов и приводим к большей длине
         if (digits.length > num.digits.length) {
             BigInteger valueAdd = num.toInt();
             num.digits = Arrays.copyOf(num.digits, digits.length);
