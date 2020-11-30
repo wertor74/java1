@@ -16,7 +16,6 @@ public class LineCount {
             }
             reader.close();
         } catch (Exception e) {
-            System.out.println(e + ", ");
             return -1;
         }
         return i;
