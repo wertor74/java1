@@ -17,7 +17,9 @@ public class Translator {
         for (int i = 0; i < chars.length; i++) {
             if (Character.isAlphabetic(chars[i])) {
                 stringBuilder.append(chars[i]);
-                if (Character.isAlphabetic(chars[i + 1]) == false) stringBuilder.append('@');
+                if (i <= chars.length - 2) {
+                    if (!Character.isAlphabetic(chars[i + 1])) stringBuilder.append('@');
+                }
             } else {
                 stringBuilder.append(chars[i]);
                 stringBuilder.append('@');
@@ -29,7 +31,7 @@ public class Translator {
         for (int i = 0; i < sentenceArr.length; i++) {
             int count = 0; // счётчик если совпало
             for (int j = 0; j < inLang.length; j++) {
-                if (sentenceArr[i].compareToIgnoreCase(inLang[j]) == 0) {
+                if (sentenceArr[i].compareToIgnoreCase(inLang[j]) == 0 && outLang.length > j) {
                     count ++;
                     if (sentenceArr[i].compareTo(inLang[j]) != 0) {
                         result += outLang[j].substring(0, 1).toUpperCase() + outLang[j].substring(1);
@@ -47,7 +49,7 @@ public class Translator {
     public static void main(String[] args) {
         String[] inLang = {"привет", "мир"};
         String[] outLang = {"hello", "world"};
-        String sentence = "Приветливый мир!";
+        String sentence = "Привет Мир!";
         Translator translator = new Translator(inLang, outLang);
         System.out.println(translator.translate(sentence));
     }
