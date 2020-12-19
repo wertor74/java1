@@ -25,7 +25,7 @@ public class Censor {
                 text.append(sc.nextLine());
             }
         } catch (Exception e) {
-            throw new CensorException("<" + inoutFileName + ">:<" + e.getMessage() + ">");
+            throw new CensorException(e.getMessage());
         }
         // ищем совпадения и меняем на *
         for (int i = 0; i < obscene.length; i++) {
@@ -42,17 +42,17 @@ public class Censor {
         // записываем в файл
         try (FileWriter fw = new FileWriter(inoutFileName)) {
             fw.write(text.toString());
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new CensorException(e.getMessage());
         }
     }
 
     public static void main(String[] args) {
-        String inoutFileName = "filein.txt";
+        String inoutFileName = "aaaaaaa.txt";
         String[] obscene = {"day", "two", "count", "storey", "write"};
         try {
             censorFile(inoutFileName, obscene);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
