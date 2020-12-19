@@ -24,32 +24,35 @@ public class Censor {
             while (sc.hasNextLine()) {
                 text.append(sc.nextLine());
             }
-            // ищем совпадения и меняем на *
-            for (int i = 0; i < obscene.length; i++) {
-                int iO = text.indexOf(obscene[i]);
-                if (iO != -1) {
-                    StringBuilder obs = new StringBuilder("");
-                    for (char c : obscene[i].toCharArray()) {
-                        c = '*';
-                        obs.append(c);
-                    }
-                    text.replace(iO, iO + obscene[i].length(), obs.toString());
-                }
-            }
-            // записываем в файл
-            FileWriter fw = new FileWriter(inoutFileName);
-                fw.write(text.toString());
         } catch (Exception e) {
+            throw new CensorException("<" + inoutFileName + ">:<" + e.getMessage() + ">");
+        }
+        // ищем совпадения и меняем на *
+        for (int i = 0; i < obscene.length; i++) {
+            int iO = text.indexOf(obscene[i]);
+            if (iO != -1) {
+                StringBuilder obs = new StringBuilder("");
+                for (char c : obscene[i].toCharArray()) {
+                    c = '*';
+                    obs.append(c);
+                }
+                text.replace(iO, iO + obscene[i].length(), obs.toString());
+            }
+        }
+        // записываем в файл
+        try (FileWriter fw = new FileWriter(inoutFileName)) {
+            fw.write(text.toString());
+        } catch (IOException e) {
             throw new CensorException(e.getMessage());
         }
     }
 
     public static void main(String[] args) {
-        String inoutFileName = "aaaaaa.txt";
-        String[] obscene = {"Java", "Oracle", "Sun", "Microsystems"};
+        String inoutFileName = "filein.txt";
+        String[] obscene = {"day", "two", "count", "storey", "write"};
         try {
             censorFile(inoutFileName, obscene);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             System.out.println(e);
         }
     }
