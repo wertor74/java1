@@ -13,7 +13,7 @@ public class Censor {
         }
         @Override
         public String getMessage() {
-            return inoutFileName;
+            return inoutFileName + ":" + super.getMessage();
         }
     }
     public static void censorFile(String inoutFileName, String[] obscene) {
@@ -25,7 +25,7 @@ public class Censor {
                 text.append(sc.nextLine());
             }
         } catch (Exception e) {
-            throw new CensorException(e.getMessage());
+            throw new CensorException(inoutFileName);
         }
         // ищем совпадения и меняем на *
         for (int i = 0; i < obscene.length; i++) {
@@ -43,7 +43,7 @@ public class Censor {
         try (FileWriter fw = new FileWriter(inoutFileName)) {
             fw.write(text.toString());
         } catch (Exception e) {
-            throw new CensorException(e.getMessage());
+            throw new CensorException(inoutFileName);
         }
     }
 
