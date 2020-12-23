@@ -22,7 +22,7 @@ public class Creator {
     }
     public static Collection<Integer> fill3(int n) {
         List<Integer> three = new ArrayList();
-        for (Integer i = 0; i < n; i++) {
+        for (Integer i = 0; i < n * 3; i = i + 3) {
             three.add(i);
             three.add(i * i);
             three.add(i * i * i);
