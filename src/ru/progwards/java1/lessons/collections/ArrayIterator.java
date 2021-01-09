@@ -10,7 +10,6 @@ public class ArrayIterator<T> implements Iterator<T> {
         this.array = array;
         count = -1;
     }
-
     @Override
     public boolean hasNext() {
         // TODO Auto-generated method stub
@@ -18,7 +17,6 @@ public class ArrayIterator<T> implements Iterator<T> {
         if (count < array.length) return true;
         return false;
     }
-
     @Override
     public T next() {
         // TODO Auto-generated method stub
