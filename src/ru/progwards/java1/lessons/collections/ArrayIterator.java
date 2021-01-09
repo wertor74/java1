@@ -8,19 +8,19 @@ public class ArrayIterator<T> implements Iterator<T> {
 
     ArrayIterator(T[] array) {
         this.array = array;
-        count = -1;
+        count = 0;
     }
     @Override
     public boolean hasNext() {
         // TODO Auto-generated method stub
-        if (count < array.length) return true;
+        if (count <= array.length) return true;
         return false;
     }
     @Override
     public T next() {
         // TODO Auto-generated method stub
         count++;
-        return array[count];
+        return array[count - 1];
     }
 
     public static void main(String[] args) {
