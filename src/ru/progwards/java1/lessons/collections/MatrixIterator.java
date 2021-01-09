@@ -23,7 +23,6 @@ public class MatrixIterator<T> implements Iterator {
         }
         return false;
     }
-
     @Override
     public T next() {
         return array[count1][count2];
@@ -35,7 +34,7 @@ public class MatrixIterator<T> implements Iterator {
         String[] a2 = {"20", "21", "22", "23", "24"};
         String[] a3 = {"30", "31", "32", "33", "34"};
         String[] a4 = {"40", "41", "42", "43", "44"};
-        String[][] array = {a, a1, a2, a3, a4};
+        String[][] array = {a, a1, a2};
         MatrixIterator matrixIterator = new MatrixIterator(array);
         while (matrixIterator.hasNext()) {
             System.out.print(matrixIterator.next() + ", ");
