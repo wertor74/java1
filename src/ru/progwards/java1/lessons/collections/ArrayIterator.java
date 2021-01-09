@@ -13,7 +13,7 @@ public class ArrayIterator<T> implements Iterator<T> {
     @Override
     public boolean hasNext() {
         // TODO Auto-generated method stub
-        if (count <= array.length) return true;
+        if (count < array.length - 1) return true;
         return false;
     }
     @Override
