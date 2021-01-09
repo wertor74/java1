@@ -15,8 +15,6 @@ public class MatrixIterator<T> implements Iterator {
         if (count2 + 1 < array[count1].length) {
             return true;
         } else if (count1 < array.length - 1) {
-            count1++;
-            count2 = 0;
             return true;
         }
         return false;
