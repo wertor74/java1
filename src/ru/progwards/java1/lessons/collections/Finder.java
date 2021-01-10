@@ -4,19 +4,19 @@ import java.util.*;
 
 public class Finder {
     public static Collection<Integer> findMinSumPair(Collection<Integer> numbers) {
-        List<Integer> sum = new ArrayList(); // список сумм чисел
-        List<Integer> indSumMin = new ArrayList<>(); // список индексов минимальной суммы
+        List<Integer> indSumMin = new ArrayList<>(2); // список индексов минимальной суммы
         Integer[] numArray = new Integer[numbers.size()]; // массив для numbers
         numbers.toArray(numArray); // передаём numbers в массив
+        Integer sumMin = numArray[0] + numArray[1];
+        indSumMin.add(0);
+        indSumMin.add(1);
         // вычисляем суммы и добавляем в список
-        for (int i = 0; i < numArray.length - 1; i++) {
-            sum.add(numArray[i] + numArray[i + 1]);
-        }
-        // сравниваем элемент списка сумм с минимальным элементом
-        for (Integer i = 0; i < sum.size(); i++) {
-            if (sum.get(i) == Collections.min(sum)) {
-                indSumMin.add(i);
-                indSumMin.add(i + 1);
+        for (Integer i = 1; i < numArray.length - 1; i++) {
+            Integer sum = numArray[i] + numArray[i + 1];
+            if (sum < sumMin) {
+                sumMin = sum;
+                indSumMin.set(0, i);
+                indSumMin.set(1, i + 1);
             }
         }
         return indSumMin;
@@ -65,18 +65,17 @@ public class Finder {
     }
 
     public static void main(String[] args) {
-        List<String> names = new ArrayList();
-        names.add("Алексей");
-        names.add("Алексей");
-        names.add("Мария");
-        names.add("Мария");
-        names.add("Екатерина");
-        names.add("Екатерина");
-        names.add("Василий");
-        names.add("Василий");
-        names.add("Дмитрий");
-        names.add("Дмитрий");
-        Finder finder = new Finder();
-        System.out.println(finder.findSimilar(names));
+        List<Integer> numbers = new ArrayList();
+        numbers.add(4);
+        numbers.add(5);
+        numbers.add(2);
+        numbers.add(3);
+        numbers.add(0);
+        numbers.add(1);
+        numbers.add(6);
+        numbers.add(7);
+        numbers.add(8);
+        numbers.add(9);
+        System.out.println(findMinSumPair(numbers));
     }
 }
