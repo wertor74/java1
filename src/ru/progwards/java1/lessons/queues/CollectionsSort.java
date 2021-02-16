@@ -22,10 +22,7 @@ public class CollectionsSort {
         data.addAll(result);
     }
     static void collSort(Collection<Integer> data) {
-        List<Integer> result = new ArrayList<>(data);
-        data.clear();
-        Collections.sort(result);
-        data.addAll(result);
+        Collections.sort((ArrayList<Integer>)data);
     }
     public static Collection<String> compareSort() {
         Collection<String> result = new ArrayList<>(); // конечный список
@@ -81,6 +78,7 @@ public class CollectionsSort {
 
     public static void main(String[] args) {
         List<Integer> data = new ArrayList<>(List.of(1, 0, -1, -2, -3));
-        System.out.println(compareSort());
+        collSort(data);
+        System.out.println(data);
     }
 }
