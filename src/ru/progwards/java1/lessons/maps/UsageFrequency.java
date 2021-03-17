@@ -1,11 +1,12 @@
 package ru.progwards.java1.lessons.maps;
 
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
 public class UsageFrequency {
     static List<String> text = new ArrayList<>(); // коллекция для содержимого файла
-    public static void processFile(String fileName) throws Exception {
+    public static void processFile(String fileName) throws IOException {
         FileReader reader = new FileReader(fileName);
         Scanner scanner = new Scanner(reader);
         while (scanner.hasNext()) {
@@ -13,7 +14,7 @@ public class UsageFrequency {
         }
         reader.close();
     }
-    public static Map<Character, Integer> getLetters() throws Exception {
+    public static Map<Character, Integer> getLetters() throws IOException {
         List<Character> symbol = new ArrayList<>(); // коллекция для символов из файла
         Map<Character, Integer> letters = new HashMap<>(); // словарь для символов и количества
         // добавляем символы в коллекцию и убираем не нужные
@@ -33,7 +34,7 @@ public class UsageFrequency {
         }
         return letters;
     }
-    public static Map<String, Integer> getWords() throws Exception {
+    public static Map<String, Integer> getWords() throws IOException {
         List<String> word = new ArrayList<>(); // коллекция для слов в тексте
         Map<String, Integer> words = new HashMap<>(); // словарь для слов и колличества
         // убираем ненужные символы из слов и добавляем в коллекцию
@@ -59,7 +60,7 @@ public class UsageFrequency {
         return words;
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         processFile("wiki.train.tokens");
         //getLetters();
         getWords();
