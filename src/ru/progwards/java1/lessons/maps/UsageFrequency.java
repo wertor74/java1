@@ -47,7 +47,7 @@ public class UsageFrequency {
                     wordText += String.valueOf(c);
                 }
             }
-            word.add(wordText.toLowerCase());
+            word.add(wordText);
         }
         // считаем частоту употребления слов и добавляем в словарь
         for (int i = 0; i < word.size(); i++) {
@@ -63,7 +63,7 @@ public class UsageFrequency {
     }
 
     public static void main(String[] args) {
-        processFile("wiki.train.tokens");
+        processFile("wiki.test.tokens");
         //getLetters();
         System.out.println(getWords());
     }
