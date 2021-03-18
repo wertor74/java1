@@ -52,18 +52,19 @@ public class UsageFrequency {
         // считаем частоту употребления слов и добавляем в словарь
         for (int i = 0; i < word.size(); i++) {
             if (!word.get(i).isEmpty()) {
-                if (!words.containsKey(word.get(i))) {
-                    int count = Collections.frequency(word, word.get(i));
-                    words.put(word.get(i), count);
+                if (words.containsKey(word.get(i))) {
+                    words.put(word.get(i), words.get(word.get(i)) + 1);
+                } else {
+                    words.put(word.get(i), 1);
                 }
             }
         }
         return words;
     }
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         processFile("wiki.test.tokens");
         //getLetters();
         System.out.println(getWords());
-    }
+    }*/
 }
