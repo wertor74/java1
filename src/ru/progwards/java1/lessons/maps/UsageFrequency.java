@@ -6,15 +6,17 @@ import java.util.*;
 
 public class UsageFrequency {
     static List<String> text = new ArrayList<>(); // коллекция для содержимого файла
-    public static void processFile(String fileName) throws IOException {
-        FileReader reader = new FileReader(fileName);
-        Scanner scanner = new Scanner(reader);
-        while (scanner.hasNext()) {
-            text.add(scanner.next());
+    public static void processFile(String fileName) {
+        try (FileReader reader = new FileReader(fileName)) {
+            Scanner scanner = new Scanner(reader);
+            while (scanner.hasNext()) {
+                text.add(scanner.next());
+            }
+        } catch (IOException e) {
+            System.out.println(e);
         }
-        reader.close();
     }
-    public static Map<Character, Integer> getLetters() throws IOException {
+    public static Map<Character, Integer> getLetters() {
         List<Character> symbol = new ArrayList<>(); // коллекция для символов из файла
         Map<Character, Integer> letters = new HashMap<>(); // словарь для символов и количества
         // добавляем символы в коллекцию и убираем не нужные
@@ -34,7 +36,7 @@ public class UsageFrequency {
         }
         return letters;
     }
-    public static Map<String, Integer> getWords() throws IOException {
+    public static Map<String, Integer> getWords() {
         List<String> word = new ArrayList<>(); // коллекция для слов в тексте
         Map<String, Integer> words = new HashMap<>(); // словарь для слов и колличества
         // убираем ненужные символы из слов и добавляем в коллекцию
@@ -60,9 +62,9 @@ public class UsageFrequency {
         return words;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         processFile("wiki.train.tokens");
         //getLetters();
-        getWords();
+        System.out.println(getWords());
     }
 }
