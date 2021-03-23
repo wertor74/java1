@@ -55,12 +55,13 @@ public class SalesInfo {
                 nameAmount.put(name, new AbstractMap.SimpleEntry(nameAmount.get(name).getKey() + amount, nameAmount.get(name).getValue() + quantity));
             }
         }
+        loadFile.clear();
         return nameAmount;
     }
 
     public static void main(String[] args) {
         System.out.println(loadOrders("salesinfo.csv"));
-        //System.out.println(getGoods());
-        System.out.println(getCustomers());
+        System.out.println(getGoods());
+        //System.out.println(getCustomers());
     }
 }
