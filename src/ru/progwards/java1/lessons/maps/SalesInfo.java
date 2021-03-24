@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class SalesInfo {
-    static List<String> loadFile = new ArrayList<>(); // коллекция для загрузок из файла
+    static List<String> loadFile; // коллекция для загрузок из файла
+    static String fileName;
     public static int loadOrders(String fileName) {
+        loadFile = new ArrayList<>();
         int lo = 0; // количество загруженных строк
         try (FileReader reader = new FileReader(fileName)) {
             Scanner scanner = new Scanner(reader);
@@ -30,6 +32,7 @@ public class SalesInfo {
         return lo;
     }
     public static Map<String, Double> getGoods() {
+        loadOrders(fileName);
         Map<String, Double> productAmount = new TreeMap<>(); // словарь для товара и суммы
         for (int i = 0; i < loadFile.size(); i++) {
             String product = loadFile.get(i).split(", ")[1];
@@ -40,10 +43,10 @@ public class SalesInfo {
                 productAmount.put(product, productAmount.get(product) + amount);
             }
         }
-        loadFile.clear();
         return productAmount;
     }
     public static Map<String, AbstractMap.SimpleEntry<Double, Integer>> getCustomers() {
+        loadOrders(fileName);
         Map<String, AbstractMap.SimpleEntry<Double, Integer>> nameAmount = new TreeMap<>();
         for (int i = 0; i < loadFile.size(); i++) {
             String name = loadFile.get(i).split(", ")[0];
@@ -55,13 +58,13 @@ public class SalesInfo {
                 nameAmount.put(name, new AbstractMap.SimpleEntry(nameAmount.get(name).getKey() + amount, nameAmount.get(name).getValue() + quantity));
             }
         }
-        loadFile.clear();
         return nameAmount;
     }
 
     public static void main(String[] args) {
-        System.out.println(loadOrders("salesinfo.csv"));
-        System.out.println(getGoods());
-        //System.out.println(getCustomers());
+        fileName = "salesinfo.csv";
+        //System.out.println(loadOrders(fileName));
+        //System.out.println(getGoods());
+        System.out.println(getCustomers());
     }
 }

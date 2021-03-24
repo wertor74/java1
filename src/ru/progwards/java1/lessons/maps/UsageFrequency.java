@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class UsageFrequency {
-    static List<String> text = new ArrayList<>(); // коллекция для содержимого файла
+    static List<String> text; // коллекция для содержимого файла
+    static String fileName;
     public static void processFile(String fileName) {
+        text = new ArrayList<>();
         try (FileReader reader = new FileReader(fileName)) {
             Scanner scanner = new Scanner(reader);
             while (scanner.hasNext()) {
@@ -17,6 +19,7 @@ public class UsageFrequency {
         }
     }
     public static Map<Character, Integer> getLetters() {
+        processFile(fileName);
         List<Character> symbol = new ArrayList<>(); // коллекция для символов из файла
         Map<Character, Integer> letters = new HashMap<>(); // словарь для символов и количества
         // добавляем символы в коллекцию и убираем не нужные
@@ -34,10 +37,10 @@ public class UsageFrequency {
                 letters.put(c, count);
             }
         }
-        text.clear();
         return letters;
     }
     public static Map<String, Integer> getWords() {
+        processFile(fileName);
         List<String> word = new ArrayList<>(); // коллекция для слов в тексте
         Map<String, Integer> words = new HashMap<>(); // словарь для слов и колличества
         // убираем ненужные символы из слов и добавляем в коллекцию
@@ -60,12 +63,12 @@ public class UsageFrequency {
                 }
             }
         }
-        text.clear();
         return words;
     }
 
     public static void main(String[] args) {
-        processFile("wiki.test.tokens");
+        fileName = "wiki.test.tokens";
+        processFile(fileName);
         //getLetters();
         System.out.println(getWords());
     }
