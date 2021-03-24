@@ -28,7 +28,6 @@ public class SalesInfo {
         } catch (IOException e) {
             System.out.println(e);
         }
-        loadFile.clear();
         return lo;
     }
     public static Map<String, Double> getGoods() {
