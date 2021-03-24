@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class UsageFrequency {
-    static List<String> text; // коллекция для содержимого файла
-    static String fileName;
+    public static List<String> text; // коллекция для содержимого файла
+    public static String fileName;
     public static void processFile(String fileName) {
         text = new ArrayList<>();
         try (FileReader reader = new FileReader(fileName)) {

@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class SalesInfo {
-    static List<String> loadFile; // коллекция для загрузок из файла
-    static String fileName;
+    public static List<String> loadFile; // коллекция для загрузок из файла
+    public static String fileName;
     public static int loadOrders(String fileName) {
         loadFile = new ArrayList<>();
         int lo = 0; // количество загруженных строк
