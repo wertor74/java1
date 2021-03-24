@@ -32,6 +32,7 @@ public class SalesInfo {
         return lo;
     }
     public static Map<String, Double> getGoods() {
+        loadFile = new ArrayList<>();
         loadOrders(fileName);
         Map<String, Double> productAmount = new TreeMap<>(); // словарь для товара и суммы
         for (int i = 0; i < loadFile.size(); i++) {
