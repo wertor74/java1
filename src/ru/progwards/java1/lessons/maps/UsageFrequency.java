@@ -65,10 +65,10 @@ public class UsageFrequency {
         return words;
     }
 
-/*    public static void main(String[] args) {
+    public static void main(String[] args) {
         fileName = "wiki.test.tokens";
         processFile(fileName);
         //getLetters();
         System.out.println(getWords());
-    }*/
+    }
 }
