@@ -5,10 +5,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class SalesInfo {
-    public static List<String> loadFile; // коллекция для загрузок из файла
+    public static List<String> loadFile = new ArrayList<>(); // коллекция для загрузок из файла
     public static String fileName;
     public static int loadOrders(String fileName) {
-        loadFile = new ArrayList<>();
         int lo = 0; // количество загруженных строк
         try (FileReader reader = new FileReader(fileName)) {
             Scanner scanner = new Scanner(reader);
@@ -32,7 +31,6 @@ public class SalesInfo {
         return lo;
     }
     public static Map<String, Double> getGoods() {
-        loadFile = new ArrayList<>();
         loadOrders(fileName);
         Map<String, Double> productAmount = new TreeMap<>(); // словарь для товара и суммы
         for (int i = 0; i < loadFile.size(); i++) {
@@ -65,7 +63,7 @@ public class SalesInfo {
     public static void main(String[] args) {
         fileName = "salesinfo.csv";
         //System.out.println(loadOrders(fileName));
-        //System.out.println(getGoods());
-        System.out.println(getCustomers());
+        System.out.println(getGoods());
+        //System.out.println(getCustomers());
     }
 }
