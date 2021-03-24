@@ -5,10 +5,9 @@ import java.io.IOException;
 import java.util.*;
 
 public class UsageFrequency {
-    public static List<String> text; // коллекция для содержимого файла
+    public static List<String> text = new ArrayList<>(); // коллекция для содержимого файла
     public static String fileName;
     public static void processFile(String fileName) {
-        text = new ArrayList<>();
         try (FileReader reader = new FileReader(fileName)) {
             Scanner scanner = new Scanner(reader);
             while (scanner.hasNext()) {
