@@ -18,7 +18,7 @@ public class UsageFrequency {
             System.out.println(e);
         }
     }
-    public static Map<Character, Integer> getLetters() throws Exception {
+    public static Map<Character, Integer> getLetters() {
         processFile(fileName);
         List<Character> symbol = new ArrayList<>(); // коллекция для символов из файла
         Map<Character, Integer> letters = new HashMap<>(); // словарь для символов и количества
@@ -39,7 +39,7 @@ public class UsageFrequency {
         }
         return letters;
     }
-    public static Map<String, Integer> getWords() throws Exception {
+    public static Map<String, Integer> getWords() {
         processFile(fileName);
         List<String> word = new ArrayList<>(); // коллекция для слов в тексте
         Map<String, Integer> words = new HashMap<>(); // словарь для слов и колличества
@@ -66,10 +66,10 @@ public class UsageFrequency {
         return words;
     }
 
-    public static void main(String[] args) throws Exception {
+/*    public static void main(String[] args) {
         fileName = "wiki.test.tokens";
         processFile(fileName);
         //getLetters();
         System.out.println(getWords());
-    }
+    }*/
 }
