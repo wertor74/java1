@@ -55,6 +55,7 @@ public class Insurance {
         }
     }
     public static boolean checkValid(ZonedDateTime dateTime) {
+        if (start.compareTo(dateTime) > 0) return false;
         if (duration != null && start.plus(duration).compareTo(dateTime) < 1) return false;
         return true;
     }
