@@ -1,6 +1,8 @@
 package ru.progwards.java1.lessons.datetime;
 
 import java.time.*;
+import java.util.Locale;
+
 import static java.time.temporal.ChronoUnit.*;
 
 public class Insurance {
@@ -55,9 +57,9 @@ public class Insurance {
         }
     }
     public static boolean checkValid(ZonedDateTime dateTime) {
-        if (start.compareTo(dateTime) > 0) return false;
+        if (start.isAfter(dateTime)) return false;
         if (duration != null) {
-            if (duration.compareTo(Duration.parse("PT0S")) > 0 && start.plus(duration).compareTo(dateTime) < 1) return false;
+            if (start.plus(duration).isBefore(dateTime)) return false;
         }
         return true;
     }
@@ -73,10 +75,8 @@ public class Insurance {
 
     public static void main(String[] args) {
         Insurance ins = new Insurance(ZonedDateTime.parse("2018-07-15T20:20:13.053060+03:00[Europe/Moscow]"));
-        setDuration(Duration.parse("PT0H"));
+//        setDuration(Duration.parse("PT0H"));
         System.out.println(checkValid(ZonedDateTime.parse("2024-01-05T20:20:13.053082+03:00[Europe/Moscow]")));
-        System.out.println(duration);
-        System.out.println(start.compareTo(ZonedDateTime.parse("2024-01-05T20:20:13.053082+03:00[Europe/Moscow]")));
         System.out.println(ins);
     }
 }
