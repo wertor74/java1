@@ -54,7 +54,7 @@ public class Insurance {
                 break;
         }
     }
-    public static boolean checkValid(ZonedDateTime dateTime) {
+    public boolean checkValid(ZonedDateTime dateTime) {
         if (start.isAfter(dateTime)) return false;
         if (duration != null && !duration.isZero()) {
             if (start.plus(duration).isBefore(dateTime)) return false;
@@ -71,7 +71,7 @@ public class Insurance {
         return "Insurance issued on " + start + validStr;
     }
 
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         Insurance ins = new Insurance(ZonedDateTime.parse("2018-07-17T22:50:14.073272+03:00[Europe/Moscow]"));
         setDuration(ZonedDateTime.parse("2018-07-17T22:50:14.073272+03:00[Europe/Moscow]"));
         System.out.println(duration);
@@ -79,5 +79,5 @@ public class Insurance {
         System.out.println(start.plus(duration));
         System.out.println(checkValid(ZonedDateTime.parse("2024-01-07T22:50:14.073322+03:00[Europe/Moscow]")));
 //        System.out.println(ins);
-    }
+    }*/
 }
