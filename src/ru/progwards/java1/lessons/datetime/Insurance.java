@@ -5,8 +5,8 @@ import static java.time.temporal.ChronoUnit.*;
 
 public class Insurance {
     public static enum FormatStyle {SHORT, LONG, FULL}
-    private static ZonedDateTime start;
-    private static Duration duration;
+    private ZonedDateTime start;
+    private Duration duration;
     public Insurance(ZonedDateTime start) {
         this.start = start;
     }
@@ -14,43 +14,43 @@ public class Insurance {
         try {
             switch (style) {
                 case SHORT:
-                    start = ZonedDateTime.of(LocalDate.parse(strStart), LocalTime.parse("00:00:00.0"), ZoneId.systemDefault());
+                    this.start = ZonedDateTime.of(LocalDate.parse(strStart), LocalTime.parse("00:00:00.0"), ZoneId.systemDefault());
                     break;
                 case LONG:
-                    start = ZonedDateTime.of(LocalDateTime.parse(strStart), ZoneId.systemDefault());
+                    this.start = ZonedDateTime.of(LocalDateTime.parse(strStart), ZoneId.systemDefault());
                     break;
                 case FULL:
-                    start = ZonedDateTime.parse(strStart);
+                    this.start = ZonedDateTime.parse(strStart);
                     break;
             }
         } catch (Exception e) {
             System.out.println(e);
         }
     }
-    public static void setDuration(Duration duration) {
-        Insurance.duration = duration;
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
-    public static void setDuration(ZonedDateTime expiration) {
-        duration = Duration.between(start, expiration);
+    public void setDuration(ZonedDateTime expiration) {
+        this.duration = Duration.between(start, expiration);
     }
-    public static void setDuration(int months, int days, int hours) {
+    public void setDuration(int months, int days, int hours) {
         ZonedDateTime exp = start.plusMonths(months).plusDays(days).plusHours(hours);
-        duration = Duration.between(start, exp);
+        this.duration = Duration.between(start, exp);
     }
-    public static void setDuration(String strDuration, FormatStyle style) {
+    public void setDuration(String strDuration, FormatStyle style) {
         switch (style) {
             case SHORT:
-                duration = Duration.between(start, start.plus(Long.valueOf(strDuration), MILLIS));
+                this.duration = Duration.between(start, start.plus(Long.valueOf(strDuration), MILLIS));
                 break;
             case LONG:
                 LocalDateTime ldtExp = LocalDateTime.parse(strDuration);
                 ZonedDateTime exp = start.plusYears(ldtExp.getYear()).plusMonths(ldtExp.getMonthValue()).
                         plusDays(ldtExp.getDayOfMonth()).plusHours(ldtExp.getHour()).
                         plusMinutes(ldtExp.getMinute()).plusSeconds(ldtExp.getSecond());
-                duration = Duration.between(start, exp);
+                this.duration = Duration.between(start, exp);
                 break;
             case FULL:
-                duration = Duration.parse(strDuration);
+                this.duration = Duration.parse(strDuration);
                 break;
         }
     }
@@ -71,13 +71,13 @@ public class Insurance {
         return "Insurance issued on " + start + validStr;
     }
 
-/*    public static void main(String[] args) {
+    public static void main(String[] args) {
         Insurance ins = new Insurance(ZonedDateTime.parse("2018-07-17T22:50:14.073272+03:00[Europe/Moscow]"));
-        setDuration(ZonedDateTime.parse("2018-07-17T22:50:14.073272+03:00[Europe/Moscow]"));
-        System.out.println(duration);
+        ins.setDuration(ZonedDateTime.parse("2018-07-17T22:50:14.073272+03:00[Europe/Moscow]"));
+        System.out.println(ins.duration);
         System.out.println(Duration.ZERO);
-        System.out.println(start.plus(duration));
-        System.out.println(checkValid(ZonedDateTime.parse("2024-01-07T22:50:14.073322+03:00[Europe/Moscow]")));
-//        System.out.println(ins);
-    }*/
+        System.out.println(ins.start.plus(ins.duration));
+        System.out.println(ins.checkValid(ZonedDateTime.parse("2024-01-07T22:50:14.073322+03:00[Europe/Moscow]")));
+        System.out.println(ins);
+    }
 }
