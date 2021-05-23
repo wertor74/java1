@@ -44,8 +44,7 @@ public class Profiler {
         }
         // заносим статистику в ArrayList
         for (int i = 0; i < sftArr.length; i++) {
-            Profiler profiler = new Profiler();
-            Profiler.StatisticInfo statisticInfo = profiler.new StatisticInfo();
+            StatisticInfo statisticInfo = new StatisticInfo();
             statisticInfo.sectionName = sftArr[i];
             statisticInfo.fullTime = Profiler.sectionFullTime.get(sftArr[i]) * Profiler.sectionCount.get(sftArr[i]);
             statisticInfo.selfTime = Profiler.sectionSelfTime.get(sftArr[i]);
@@ -54,13 +53,6 @@ public class Profiler {
         }
         return statInfo;
     }
-    public class StatisticInfo {
-        public String sectionName;
-        public int fullTime;
-        public int selfTime;
-        public int count;
-    }
-
     public static void main(String[] args) {
         Profiler.enterSection("1");
             Profiler.enterSection("2");
