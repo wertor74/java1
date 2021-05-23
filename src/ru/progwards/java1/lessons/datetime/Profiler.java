@@ -28,6 +28,7 @@ public class Profiler {
         // массив для имён секций
         String [] sftArr = Profiler.sectionFullTime.keySet().toArray(new String[Profiler.sectionFullTime.size()]);
         // вычисляем селфтайм
+        if (sftArr.length == 1) Profiler.sectionSelfTime.put(sftArr[0], sectionFullTime.get(sftArr[0]));
         for (int i = 1; i < sftArr.length; i++) {
             if (i == 1) {
                 Profiler.sectionSelfTime.put(sftArr[i - 1], Profiler.sectionFullTime.get(sftArr[i - 1]) - Profiler.sectionFullTime.get(sftArr[i]) * Profiler.sectionCount.get(sftArr[i]));
@@ -55,29 +56,16 @@ public class Profiler {
     }
     public static void main(String[] args) {
         Profiler.enterSection("1");
-            Profiler.enterSection("2");
-                Profiler.enterSection("3");
-                long startTest = System.currentTimeMillis();
-                while (System.currentTimeMillis() - startTest < 500) {
-
-                }
-                Profiler.exitSection("3");
-        startTest = System.currentTimeMillis();
-            while (System.currentTimeMillis() - startTest < 200) {
-
-            }
-            Profiler.exitSection("2");
-            Profiler.enterSection("4");
-                startTest = System.currentTimeMillis();
-                while (System.currentTimeMillis() - startTest < 100) {
-
-                }
-            Profiler.exitSection("4");
-        startTest = System.currentTimeMillis();
+        long startTest = System.currentTimeMillis();
         while (System.currentTimeMillis() - startTest < 200) {
 
         }
         Profiler.exitSection("1");
+        System.out.println(Profiler.sectionCount);
+        System.out.println(Profiler.sectionStart);
+        System.out.println(Profiler.sectionFinish);
+        System.out.println(Profiler.sectionFullTime);
         System.out.println(Profiler.getStatisticInfo());
+        System.out.println(Profiler.sectionSelfTime);
     }
 }
