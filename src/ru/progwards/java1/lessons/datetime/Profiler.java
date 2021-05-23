@@ -54,7 +54,7 @@ public class Profiler {
         }
         return statInfo;
     }
-    class StatisticInfo {
+    public class StatisticInfo {
         public String sectionName;
         public int fullTime;
         public int selfTime;
