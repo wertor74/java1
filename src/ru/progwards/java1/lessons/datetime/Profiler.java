@@ -52,12 +52,36 @@ public class Profiler {
         return statInfo;
     }
     public static void main(String[] args) {
+        for (int i = 1; i < 4; i++) {
             Profiler.enterSection("Process1");
+            if (i == 3) {
+                for (int j = 1; j < 4; j++) {
+                    Profiler.enterSection("Process2");
+                    Profiler.enterSection("Process3");
+                    long startTest = System.currentTimeMillis();
+                    while (System.currentTimeMillis() - startTest < 100) {
+
+                    }
+                    Profiler.exitSection("Process3");
+                    startTest = System.currentTimeMillis();
+                    while (System.currentTimeMillis() - startTest < 200) {
+
+                    }
+                    Profiler.exitSection("Process2");
+                }
+            }
             long startTest = System.currentTimeMillis();
             while (System.currentTimeMillis() - startTest < 100) {
 
             }
             Profiler.exitSection("Process1");
+        }
+        System.out.println(Profiler.sectionCount);
+        System.out.println(Profiler.sectionStartFull);
+        System.out.println(Profiler.sectionStartSelf);
+        System.out.println(Profiler.sectionFinish);
         System.out.println(Profiler.getStatisticInfo());
+        System.out.println(Profiler.sectionFullTime);
+        System.out.println(Profiler.sectionSelfTime);
     }
 }
