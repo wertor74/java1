@@ -23,15 +23,7 @@ public class OrderProcessor {
                 @Override
                 public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
                     if (pathMatcher.matches(path)) {
-                        List<String> stringOrderItemList = Files.readAllLines(path);
-                        for (int i = 0; i < stringOrderItemList.size(); i++) {
-                            String [] linesOrderItemArr = stringOrderItemList.get(i).split(",");
-                            if (linesOrderItemArr.length == 3) {
-                                pathList.add(path);
-                            } else {
-                                countOrders ++;
-                            }
-                        }
+                        pathList.add(path);
                     } else {
                         countOrders ++;
                     }
@@ -42,7 +34,7 @@ public class OrderProcessor {
                     return FileVisitResult.CONTINUE;
                 }
             });
-            for (Path path : pathList) {
+/*            for (Path path : pathList) {
                 LocalDateTime orderDate = ZonedDateTime.parse(Files.getAttribute(path, "lastModifiedTime").toString()).toLocalDateTime();
                 if (start == null) start = LocalDate.EPOCH;
                 if (finish == null) finish = LocalDate.MAX;
@@ -75,7 +67,7 @@ public class OrderProcessor {
                         orderList.get(orderList.size() - 1).sum = sumOrderItems;
                     }
                 }
-            }
+            }*/
         } catch (IOException e) {
             System.out.println(e);
         }
