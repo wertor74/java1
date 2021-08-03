@@ -18,12 +18,20 @@ public class OrderProcessor {
     public int loadOrders(LocalDate start, LocalDate finish, String shopId) {
         ArrayList<Path> pathList = new ArrayList<>(); // список файлов с заказами
         try {
-            PathMatcher pathMatcher = FileSystems. getDefault().getPathMatcher("glob:**/???-??????-????.csv");
-            Files. walkFileTree(pathOrders, new SimpleFileVisitor<Path>() {
+            PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**/???-??????-????.csv");
+            Files.walkFileTree(pathOrders, new SimpleFileVisitor<Path>() {
                 @Override
-                public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
+                public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
                     if (pathMatcher.matches(path)) {
-                        pathList.add(path);
+                        List<String> stringOrderItemList = Files.readAllLines(path);
+                        for (int i = 0; i < stringOrderItemList.size(); i++) {
+                            String [] linesOrderItemArr = stringOrderItemList.get(i).split(",");
+                            if (linesOrderItemArr.length == 3) {
+                                pathList.add(path);
+                            } else {
+                                countOrders ++;
+                            }
+                        }
                     } else {
                         countOrders ++;
                     }
@@ -124,8 +132,8 @@ public class OrderProcessor {
 
     public static void main(String[] args) {
         OrderProcessor op = new OrderProcessor("c:/Users/wertor/Documents/JAVA/OrderProcessor");
-        //System.out.println(op.loadOrders(LocalDate.of(2021, 06, 01), LocalDate.of(2021, 06, 10), "S01"));
-        System.out.println(op.process("S01"));
+        System.out.println(op.loadOrders(LocalDate.of(2021, 06, 01), LocalDate.of(2021, 06, 10), "S01"));
+        //System.out.println(op.process("S01"));
         //System.out.println(op.statisticsByShop());
         //System.out.println(op.statisticsByGoods());
         //System.out.println(op.statisticsByDay());
