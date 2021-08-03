@@ -51,10 +51,10 @@ public class OrderProcessor {
                         double sumOrderItems = 0.0; // сумма стоимости всех позиций в заказе
                         for (int i = 0; i < stringOrderItemList.size(); i++) {
                             orderItemList.add(new OrderItem());
-                            String [] linesOrderItemArr = stringOrderItemList.get(i).split(", ");
-                            orderItemList.get(orderItemList.size() - 1).googsName = linesOrderItemArr[0];
-                            orderItemList.get(orderItemList.size() - 1).count = Integer.valueOf(linesOrderItemArr[1]);
-                            orderItemList.get(orderItemList.size() - 1).price = Double.valueOf(linesOrderItemArr[2]);
+                            String [] linesOrderItemArr = stringOrderItemList.get(i).split(",");
+                            orderItemList.get(orderItemList.size() - 1).googsName = linesOrderItemArr[0].trim();
+                            orderItemList.get(orderItemList.size() - 1).count = Integer.valueOf(linesOrderItemArr[1].trim());
+                            orderItemList.get(orderItemList.size() - 1).price = Double.valueOf(linesOrderItemArr[2].trim());
                             sumOrderItems = sumOrderItems + orderItemList.get(orderItemList.size() - 1).count * orderItemList.get(orderItemList.size() - 1).price;
                         }
                         orderItemList.sort(new Comparator<>() {
@@ -125,9 +125,9 @@ public class OrderProcessor {
     public static void main(String[] args) {
         OrderProcessor op = new OrderProcessor("c:/Users/wertor/Documents/JAVA/OrderProcessor");
         //System.out.println(op.loadOrders(LocalDate.of(2021, 06, 01), LocalDate.of(2021, 06, 10), "S01"));
-        //System.out.println(op.process("S01"));
+        System.out.println(op.process("S01"));
         //System.out.println(op.statisticsByShop());
         //System.out.println(op.statisticsByGoods());
-        System.out.println(op.statisticsByDay());
+        //System.out.println(op.statisticsByDay());
     }
 }
