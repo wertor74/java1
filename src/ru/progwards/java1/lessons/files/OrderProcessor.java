@@ -3,10 +3,7 @@ package ru.progwards.java1.lessons.files;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.*;
 
 public class OrderProcessor {
@@ -17,6 +14,7 @@ public class OrderProcessor {
         this.pathOrders = Paths.get(startPath);
     }
     public int loadOrders(LocalDate start, LocalDate finish, String shopId) {
+        orderList.clear();
         ArrayList<Path> pathList = new ArrayList<>(); // список файлов с заказами
         try {
             PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**/???-??????-????.csv");
@@ -32,7 +30,7 @@ public class OrderProcessor {
                 }
             });
             for (Path path : pathList) {
-                LocalDateTime orderDate = ZonedDateTime.parse(Files.getAttribute(path, "lastModifiedTime").toString()).toLocalDateTime();
+                LocalDateTime orderDate = ZonedDateTime.parse(Files.getAttribute(path, "lastModifiedTime").toString()).toLocalDateTime().plusHours(3);
                 if (start == null) start = LocalDate.EPOCH;
                 if (finish == null) finish = LocalDate.MAX;
                 String [] fileNameArr = path.getFileName().toString().replace(".csv", "").split("-");
@@ -47,13 +45,14 @@ public class OrderProcessor {
                         List<OrderItem> orderItemList = new ArrayList<>(); // список позиций в ордере
                         double sumOrderItems = 0.0; // сумма стоимости всех позиций в заказе
                         for (int i = 0; i < stringOrderItemList.size(); i++) {
-                            orderItemList.add(new OrderItem());
                             String [] linesOrderItemArr = stringOrderItemList.get(i).split(",");
+                            System.out.println("orderDate = " + orderDate + "; linesOrderItemArr = " + linesOrderItemArr.length);
                             if (linesOrderItemArr.length != 3) {
-                                orderItemList.remove(orderItemList.size() - 1);
                                 orderList.remove(orderList.size() - 1);
                                 countOrders ++;
+                                break;
                             } else {
+                                orderItemList.add(new OrderItem());
                                 orderItemList.get(orderItemList.size() - 1).googsName = linesOrderItemArr[0].trim();
                                 orderItemList.get(orderItemList.size() - 1).count = Integer.valueOf(linesOrderItemArr[1].trim());
                                 orderItemList.get(orderItemList.size() - 1).price = Double.valueOf(linesOrderItemArr[2].trim());
@@ -127,8 +126,8 @@ public class OrderProcessor {
 
     public static void main(String[] args) {
         OrderProcessor op = new OrderProcessor("c:/Users/wertor/Documents/JAVA/OrderProcessor");
-        System.out.println(op.loadOrders(LocalDate.of(2020, Month.JANUARY, 1), LocalDate.of(2020, Month.JANUARY, 10), null));
-        //System.out.println(op.process("S01"));
+        //System.out.println(op.loadOrders(LocalDate.of(2020, Month.JANUARY, 1), LocalDate.of(2020, Month.JANUARY, 10), null));
+        System.out.println(op.process(null));
         //System.out.println(op.statisticsByShop());
         //System.out.println(op.statisticsByGoods());
         //System.out.println(op.statisticsByDay());
