@@ -46,27 +46,25 @@ public class OrderProcessor {
                         double sumOrderItems = 0.0; // сумма стоимости всех позиций в заказе
                         for (int i = 0; i < stringOrderItemList.size(); i++) {
                             String [] linesOrderItemArr = stringOrderItemList.get(i).split(",");
-                            System.out.println("orderDate = " + orderDate + "; linesOrderItemArr = " + linesOrderItemArr.length);
                             if (linesOrderItemArr.length != 3) {
                                 orderList.remove(orderList.size() - 1);
                                 countOrders ++;
-                                break;
                             } else {
                                 orderItemList.add(new OrderItem());
                                 orderItemList.get(orderItemList.size() - 1).googsName = linesOrderItemArr[0].trim();
                                 orderItemList.get(orderItemList.size() - 1).count = Integer.valueOf(linesOrderItemArr[1].trim());
                                 orderItemList.get(orderItemList.size() - 1).price = Double.valueOf(linesOrderItemArr[2].trim());
                                 sumOrderItems = sumOrderItems + orderItemList.get(orderItemList.size() - 1).count * orderItemList.get(orderItemList.size() - 1).price;
+                                orderItemList.sort(new Comparator<>() {
+                                    @Override
+                                    public int compare(OrderItem o1, OrderItem o2) {
+                                        return o1.googsName.compareTo(o2.googsName);
+                                    }
+                                });
+                                orderList.get(orderList.size() - 1).items = orderItemList;
+                                orderList.get(orderList.size() - 1).sum = sumOrderItems;
                             }
                         }
-                        orderItemList.sort(new Comparator<>() {
-                            @Override
-                            public int compare(OrderItem o1, OrderItem o2) {
-                                return o1.googsName.compareTo(o2.googsName);
-                            }
-                        });
-                        orderList.get(orderList.size() - 1).items = orderItemList;
-                        orderList.get(orderList.size() - 1).sum = sumOrderItems;
                     }
                 }
             }
@@ -76,7 +74,6 @@ public class OrderProcessor {
         return countOrders;
     }
     public List<Order> process(String shopId) {
-        loadOrders(null, null, shopId);
         orderList.sort(new Comparator<>() {
             @Override
             public int compare(Order o1, Order o2) {
@@ -127,6 +124,7 @@ public class OrderProcessor {
     public static void main(String[] args) {
         OrderProcessor op = new OrderProcessor("c:/Users/wertor/Documents/JAVA/OrderProcessor");
         //System.out.println(op.loadOrders(LocalDate.of(2020, Month.JANUARY, 1), LocalDate.of(2020, Month.JANUARY, 10), null));
+        op.loadOrders(null, null, null);
         System.out.println(op.process(null));
         //System.out.println(op.statisticsByShop());
         //System.out.println(op.statisticsByGoods());
