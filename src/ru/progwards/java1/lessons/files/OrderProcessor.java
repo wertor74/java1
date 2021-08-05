@@ -74,13 +74,19 @@ public class OrderProcessor {
         return countOrders;
     }
     public List<Order> process(String shopId) {
-        orderList.sort(new Comparator<>() {
+        List<Order> processList = new ArrayList<>();
+        for (Order order : orderList) {
+            if (shopId == null || order.shopId.equals(shopId)) {
+                processList.add(order);
+            }
+        }
+        processList.sort(new Comparator<>() {
             @Override
             public int compare(Order o1, Order o2) {
                 return o1.datetime.compareTo(o2.datetime);
             }
         });
-        return orderList;
+        return processList;
     }
     public Map<String, Double> statisticsByShop() {
         Map<String, Double> sbs = new TreeMap<>();
@@ -125,7 +131,7 @@ public class OrderProcessor {
         OrderProcessor op = new OrderProcessor("c:/Users/wertor/Documents/JAVA/OrderProcessor");
         //System.out.println(op.loadOrders(LocalDate.of(2020, Month.JANUARY, 1), LocalDate.of(2020, Month.JANUARY, 10), null));
         op.loadOrders(null, null, null);
-        System.out.println(op.process(null));
+        System.out.println(op.process("S02"));
         //System.out.println(op.statisticsByShop());
         //System.out.println(op.statisticsByGoods());
         //System.out.println(op.statisticsByDay());
