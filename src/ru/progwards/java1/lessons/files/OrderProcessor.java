@@ -90,7 +90,6 @@ public class OrderProcessor {
     }
     public Map<String, Double> statisticsByShop() {
         Map<String, Double> sbs = new TreeMap<>();
-        process(null);
         for (Order order : orderList) {
             if (sbs.containsKey(order.shopId)) {
                 sbs.put(order.shopId, sbs.get(order.shopId) + order.sum);
@@ -102,7 +101,6 @@ public class OrderProcessor {
     }
     public Map<String, Double> statisticsByGoods() {
         Map<String, Double> sbg = new TreeMap<>();
-        process(null);
         for (Order order : orderList) {
             for (OrderItem oI : order.items) {
                 if (sbg.containsKey(oI.googsName)) {
@@ -116,7 +114,6 @@ public class OrderProcessor {
     }
     public Map<LocalDate, Double> statisticsByDay() {
         Map<LocalDate, Double> sbd = new TreeMap<>();
-        process(null);
         for (Order order : orderList) {
             if (sbd.containsKey(order.datetime.toLocalDate())) {
                 sbd.put(order.datetime.toLocalDate(), sbd.get(order.datetime.toLocalDate()) + order.sum);
