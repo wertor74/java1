@@ -1,6 +1,7 @@
 package ru.progwards.java1.archiver.wertor74;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -85,15 +86,15 @@ public class HaffmanAlg {
     }
     // кодируем оригинальный файл и записываем в массив байт
     public byte [] codingOriginalFile (byte [] bytesFile, Map <Byte, String> mapET) {
-        String intermidiate = "";
+        StringBuilder intermidiate = new StringBuilder();
         String compressed = "";
         byte counter = 0;
         for (int i = 0; i < bytesFile.length; i++) { // собственно кодируем оригинальный файл
-            intermidiate += mapET.get(bytesFile[i]);
+            intermidiate.append(mapET.get(bytesFile[i]));
         }
         // добавляем в конец нули, чтобы длинна сообщения была кратна 8
         for (int lenght = intermidiate.length(), delta = 8 - lenght % 8; counter < delta; counter++) {
-            intermidiate += "0";
+            intermidiate.append("0");
         }
         compressed = String.format("%8s", Integer.toBinaryString(counter & 0xff)).replace(" ", "0") + intermidiate;
         StringBuilder compressedString = new StringBuilder(compressed);
@@ -109,17 +110,49 @@ public class HaffmanAlg {
         expansion = pathPF.getFileName().toString();
         expansion = expansion.substring(expansion.indexOf("."), expansion.length());
         byte [] bytesExp = new byte[expansion.length()]; // массив байт расширения оригинального файла
-        bytesExp = expansion.getBytes();
+        bytesExp = expansion.getBytes(StandardCharsets.UTF_8);
+        StringBuilder sbExpansion = new StringBuilder();
+        StringBuilder sbExpansion_1 = new StringBuilder();
+        for (byte b : bytesExp) {
+            sbExpansion.append(String.format("%8s", Integer.toBinaryString(b)).replace(' ', '0'));
+            sbExpansion_1.append(String.format("%8s", Integer.toBinaryString(b)));
+        }
         return bytesExp;
     }
     // кодируем кодировочную таблицу в массив байт
     public byte [] codingEncodingTable (Map <Byte, String> mapET) {
-        String stringET = ""; // стринг кодировочной таблицы
+        List <Byte> listBET = new ArrayList<>(); // список байт кодировочной таблицы
         for (Map.Entry <Byte, String> entry : mapET.entrySet()) {
-            stringET += entry.getKey() + " " + entry.getValue() + " ";
+            listBET.add(entry.getKey()); // добавляем сам байт
+            listBET.add((byte) entry.getValue().length()); // добавляем длинну кода
+            StringBuilder sbGetValue = new StringBuilder(entry.getValue());
+            int intGetValueLenght = sbGetValue.length();
+            if (intGetValueLenght == 8) { // добавляем сам код
+                listBET.add((byte) Integer.parseInt(sbGetValue.toString(), 2));
+            } else if (intGetValueLenght < 8) {
+                for (int i = 0; i < (8 - intGetValueLenght); i++) {
+                    sbGetValue.append("0");
+                }
+                listBET.add((byte) Integer.parseInt(sbGetValue.toString(), 2));
+            } else {
+                if (intGetValueLenght % 8 > 0) {
+                    for (int i = 0; i < 8 - (intGetValueLenght % 8); i++) {
+                        sbGetValue.append("0");
+                    }
+                    for (int i = 0; i <= intGetValueLenght / 8; i++) {
+                        listBET.add((byte) Integer.parseInt(sbGetValue.substring(i * 8, (i + 1) * 8), 2));
+                    }
+                } else {
+                    for (int i = 0; i < intGetValueLenght / 8; i++) {
+                        listBET.add((byte) Integer.parseInt(sbGetValue.substring(i * 8, (i + 1) * 8), 2));
+                    }
+                }
+            }
         }
-        byte [] bytesET = new byte[stringET.length()]; // массив байт кодировочной таблицы
-        bytesET = stringET.getBytes();
+        byte [] bytesET = new byte[listBET.size()]; // массив байт кодировочной таблицы
+        for (int i = 0; i < listBET.size(); i++) {
+            bytesET[i] = listBET.get(i);
+        }
         return bytesET;
     }
     // собираем конечный массив байт для записи в архивный файл
@@ -229,21 +262,34 @@ public class HaffmanAlg {
         Map <Byte, String> mapUncodingET = new HashMap<>(); // кодировочная таблица
         int start = lenghtMass[lenghtMass.length - 1] + 1 + lenghtMass[0]; // начальная точка массива кодировочной таблицы
         int lenght = lenghtMass[1]; // длинна массива кодировочной таблицы
-        String [] strUncodingETArr = new String[lenght]; // массив стринг кодировочной таблицыы
-        String strUncodingET = ""; // стринг кодировочной таблицы
-        byte[] bytesUncodingET = new byte[lenght];
+        Deque <Byte> dequeUncodingET = new ArrayDeque<>(); // очередь для ракодировки кодировочной таблицы
+        byte[] bytesUncodingET = new byte[lenght]; // массив байт кодировочной таблицы
         for (int i = start; i < start + lenght; i++) {
             bytesUncodingET[i - start] = bytesAF[i];
         }
-        try {
-            strUncodingET += new String(bytesUncodingET, "UTF-8");
-        } catch (Exception e) {
-            System.out.println(e);
+        for (Byte b : bytesUncodingET) { // добавляем байты кодировочной таблицы в очередь
+            dequeUncodingET.offer(b);
         }
-        strUncodingETArr = strUncodingET.split(" ");
-        for (int i = 0; i < strUncodingETArr.length - 1; i = i + 2) {
-            mapUncodingET.put(Byte.valueOf(strUncodingETArr[i]), strUncodingETArr[i + 1]);
-       }
+        while (!dequeUncodingET.isEmpty()) {
+            byte keyUncodingET = dequeUncodingET.poll();
+            int lenghtValueUncodingET = dequeUncodingET.poll();
+            StringBuilder valueUncodingET = new StringBuilder();
+            if (lenghtValueUncodingET > 8) {
+                if (lenghtValueUncodingET % 8 > 0) {
+                    for (int i = 0; i <= lenghtValueUncodingET / 8; i++) {
+                        valueUncodingET.append(String.format("%8s", Integer.toBinaryString(dequeUncodingET.poll() & 0xff)).replace(" ", "0"));
+                    }
+                } else {
+                    for (int i = 0; i < lenghtValueUncodingET / 8; i++) {
+                        valueUncodingET.append(String.format("%8s", Integer.toBinaryString(dequeUncodingET.poll() & 0xff)).replace(" ", "0"));
+                    }
+                }
+                mapUncodingET.put(keyUncodingET, valueUncodingET.delete(lenghtValueUncodingET, valueUncodingET.length()).toString());
+            } else {
+                valueUncodingET.append(String.format("%8s", Integer.toBinaryString(dequeUncodingET.poll() & 0xff)).replace(" ", "0"));
+                mapUncodingET.put(keyUncodingET, valueUncodingET.delete(lenghtValueUncodingET, valueUncodingET.length()).toString());
+            }
+        }
         return mapUncodingET;
     }
     // получаем массив байт закодированного оригинального файла
@@ -295,7 +341,7 @@ public class HaffmanAlg {
 
     public static void main(String[] args) {
         HaffmanAlg haffmanAlg = new HaffmanAlg();
-        haffmanAlg.packFile("c:/Users/wertor/Documents/JAVA/Archiver/infolder/Text_3.txt");
-        haffmanAlg.unpackFile("c:/Users/wertor/Documents/JAVA/Archiver/infolder/Text_3_archived.arh");
+        haffmanAlg.packFile("c:/Users/wertor/Documents/JAVA/Archiver/infolder/test.xml");
+        haffmanAlg.unpackFile("c:/Users/wertor/Documents/JAVA/Archiver/infolder/test_archived.arh");
     }
 }
