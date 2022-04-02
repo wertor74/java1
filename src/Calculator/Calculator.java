@@ -7,6 +7,7 @@ public class Calculator {
     public String [] romanNumberArr = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"};
 
     public Calculator() {
+        // инициализируем результат и операнды
         this.result = new Number(0);
         this.operand1 = new Number(0);
         this.operand2 = new Number(0);

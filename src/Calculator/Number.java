@@ -1,9 +1,9 @@
 package Calculator;
 // операнды и результат
 public class Number {
-    public String strValue;
-    public int intValue;
-    public boolean romanNumber;
+    public String strValue; // строковое значение
+    public int intValue; // числовое значение
+    public boolean romanNumber; // является ли римским числом
 
     public Number (int intValue) {
         this.intValue = intValue;
